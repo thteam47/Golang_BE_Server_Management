@@ -1,0 +1,25 @@
+#db
+dburl: "mongodb://localhost:27017"
+dbelasticurl: "http://localhost:9200"
+dbredis: "localhost:6379"
+
+# dburl        = "mongodb://mongodb"
+# dbelasticurl = "http://elasticsearch:9200"
+# dbredis      = "redis:6379"
+
+#collection
+dbname: "server"
+collectionUser: "user"
+collectionName: "servertest2"
+
+#elasticsearch
+indexName: "server-elastest2"
+
+#jwt
+keySecret: "thteam"
+
+#mail
+from: "thaithteam47@gmail.com"
+password: "anhemtui123"
+smtpHost: "smtp.gmail.com"
+smtpPort: "587"
