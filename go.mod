@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/elastic/go-elasticsearch v0.0.0
+	github.com/elastic/go-elasticsearch/v7 v7.15.1
 	github.com/elastic/go-elasticsearch/v8 v8.0.0-20211123103400-5f8a17a2322f
 	github.com/go-redis/cache/v8 v8.4.3
 	github.com/go-redis/redis/v8 v8.11.4
@@ -14,6 +15,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0
 	github.com/soheilhy/cmux v0.1.5
 	github.com/spf13/viper v1.9.0 // indirect
+	github.com/streadway/amqp v1.0.0
 	github.com/tealeg/xlsx v1.0.5
 	github.com/vigneshuvi/GoDateFormat v0.0.0-20210204121036-67364dc23c79
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect

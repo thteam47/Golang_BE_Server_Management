@@ -45,6 +45,7 @@ func (s *ServerImpl) GetUser(ctx context.Context, req *serverpb.InfoUser) (*serv
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(id)
 	user, err := s.userRepo.GetUser(id)
 	if err != nil {
 		return nil, err
@@ -239,8 +240,8 @@ func (s *ServerImpl) UpdateServer(ctx context.Context, req *serverpb.UpdateReque
 func (s *ServerImpl) DetailsServer(ctx context.Context, req *serverpb.DetailsServer) (*serverpb.DetailsServerResponse, error) {
 	var data []*models.StatusDetail
 	var status string
+	
 	status, data, err := s.serverRepo.DetailsServer(req.GetIdServer(), req.GetTimeIn(), req.GetTimeOut())
-	fmt.Println(err)
 	if err != nil {
 		return nil, err
 	}

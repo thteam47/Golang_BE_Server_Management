@@ -10,11 +10,13 @@ dbredis: "localhost:6379"
 #collection
 dbname: "server"
 collectionUser: "user"
-collectionName: "servertest2"
+collectionName: "servertest"
+#servertest2
 
 #elasticsearch
-indexName: "server-elastest2"
+indexName: "server-elastest"
 
+#server-elastest2
 #jwt
 keySecret: "thteam"
 

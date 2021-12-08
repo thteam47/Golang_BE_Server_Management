@@ -14,7 +14,9 @@ type JwtRepositoryImpl struct {
 	secretKey     string
 	tokenDuration time.Duration
 }
+
 var vi *viper.Viper
+
 func NewJwtRepo(secretKey string, tokenDuration time.Duration) repo.JwtRepository {
 	vi = viper.New()
 	vi.SetConfigFile("config.yaml")
@@ -26,6 +28,7 @@ func NewJwtRepo(secretKey string, tokenDuration time.Duration) repo.JwtRepositor
 func (manager *JwtRepositoryImpl) Generate(user *models.User) (string, error) {
 	claims := models.Claims{
 		StandardClaims: jwt.StandardClaims{
+			Issuer:    user.ID.Hex(),
 			ExpiresAt: time.Now().Add(manager.tokenDuration).Unix(),
 		},
 		Role:   user.Role,

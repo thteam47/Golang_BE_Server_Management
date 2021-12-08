@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/elastic/go-elasticsearch/esapi"
-	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/go-redis/cache/v8"
 	models "github.com/thteam47/server_management/model"
 	repo "github.com/thteam47/server_management/repository"
@@ -56,19 +56,9 @@ func (s *ServerRepositoryImpl) Index(limitpage int64, numberpage int64) ([]*mode
 	var totalSer int64
 	data := GetValueCache(s.MyRediscache, key, &dt)
 	totalSe := GetValueCache(s.MyRediscache, keyTotal, &totalSer)
-
-	fmt.Println("limit" + strconv.FormatInt(limit, 10))
-	fmt.Println(page)
-	fmt.Println("err")
-	fmt.Println(data)
-	fmt.Println(totalSe)
-	fmt.Println("data")
-	fmt.Println(data)
-	fmt.Println(totalSer)
 	if data == nil && totalSe == nil {
 		return dt, totalSer, nil
 	} else {
-		fmt.Println("ok")
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
@@ -100,10 +90,7 @@ func (s *ServerRepositoryImpl) Index(limitpage int64, numberpage int64) ([]*mode
 				return nil, 0, err
 			}
 			st = append(st, elem)
-			fmt.Println(elem)
 		}
-		fmt.Println("data list")
-		fmt.Println(st)
 		if st == nil {
 			SetValueCache(s.MyRediscache, key, dt)
 			SetValueCache(s.MyRediscache, keyTotal, 0)
@@ -123,8 +110,6 @@ func (s *ServerRepositoryImpl) Index(limitpage int64, numberpage int64) ([]*mode
 					},
 				},
 			}
-			fmt.Println(v)
-			fmt.Println(query)
 			if err := json.NewEncoder(&buf).Encode(query); err != nil {
 				return nil, 0, err
 			}
@@ -135,7 +120,6 @@ func (s *ServerRepositoryImpl) Index(limitpage int64, numberpage int64) ([]*mode
 				s.Elas.Search.WithTrackTotalHits(true),
 				s.Elas.Search.WithPretty(),
 			)
-			fmt.Println(err)
 			if err != nil {
 				return nil, 0, err
 			}
@@ -163,6 +147,7 @@ func (s *ServerRepositoryImpl) Index(limitpage int64, numberpage int64) ([]*mode
 				Username:    v.Username,
 				ServerName:  v.ServerName,
 				Ip:          v.Ip,
+				Port:        v.Port,
 				Password:    v.Password,
 				Description: v.Description,
 				Status:      status,
@@ -262,14 +247,15 @@ func (s *ServerRepositoryImpl) UpdateServer(idServer string, sv *models.Server) 
 func (s *ServerRepositoryImpl) DetailsServer(idServer string, timeIn string, timeOut string) (string, []*models.StatusDetail, error) {
 	id, _ := primitive.ObjectIDFromHex(idServer)
 	keyList := "detailstatusList_" + idServer + "_" + timeIn + timeOut
-	keyStatus := "detailstatus_" + idServer
+	keyStatus := "detailstatus_" + idServer + "_"
 	var statusList []*models.StatusDetail
 	var statusServer string
 	var detailSV models.ListStatus
 	dataList := GetValueCache(s.MyRediscache, keyList, &statusList)
 	dataStatus := GetValueCache(s.MyRediscache, keyStatus, &statusServer)
-
-	if dataList != nil && dataStatus != nil {
+	if dataList == nil && dataStatus == nil {
+		return statusServer, statusList, nil
+	} else {
 		//search
 		var r map[string]interface{}
 		var buf bytes.Buffer

@@ -3,7 +3,7 @@ package drive
 import (
 	"log"
 
-	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/elastic/go-elasticsearch/v7"
 )
 
 type ElasticsearchDB struct {

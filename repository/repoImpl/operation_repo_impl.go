@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/go-redis/cache/v8"
 	"github.com/tealeg/xlsx"
 	models "github.com/thteam47/server_management/model"

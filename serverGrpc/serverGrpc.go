@@ -60,7 +60,7 @@ func Run(lis net.Listener) error {
 	db := drive.ConnectMongo(vi.GetString("dburl"), vi.GetString("dbname"))
 	redis := drive.ConnectRedis(vi.GetString("dbredis"))
 	elas := drive.ConnectElasticsearch(vi.GetString("dbelasticurl"))
-	jwtManager := repoimpl.NewJwtRepo(vi.GetString("secretKey"), vi.GetDuration("tokenDuration"))
+	jwtManager := repoimpl.NewJwtRepo(vi.GetString("keySecret"), tokenDuration)
 	userRepo := repoimpl.NewUserRepo(db.DB, redis.MyRediscache, jwtManager)
 	serverRepo := repoimpl.NewServerRepo(db.DB, redis.MyRediscache, elas.Elas)
 	operaRepo := repoimpl.NewOperationRepo(db.DB, redis.MyRediscache, elas.Elas)
